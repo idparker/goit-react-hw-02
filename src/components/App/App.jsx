@@ -1,7 +1,7 @@
 import "./App.module.css";
 import Description from "../Description/Description";
 import Options from "../Options/Options";
-import Feedback from "../Feedback/feedback";
+import Feedback from "../Feedback/Feedback";
 import Notification from "../Notification/Notification";
 import { useState, useEffect } from "react";
 
