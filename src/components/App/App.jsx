@@ -6,6 +6,7 @@ import Notification from "../Notification/Notification";
 import { useState, useEffect } from "react";
 
 export default function App() {
+  // Вроде работает
   const savedGood = localStorage.getItem("Good");
   const savedNeutral = localStorage.getItem("Neutral");
   const savedBad = localStorage.getItem("Bad");
