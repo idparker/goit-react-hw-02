@@ -7,9 +7,14 @@ import { useState, useEffect } from "react";
 
 export default function App() {
   // Вроде работает)
+
   const savedGood = localStorage.getItem("Good");
   const savedNeutral = localStorage.getItem("Neutral");
   const savedBad = localStorage.getItem("Bad");
+
+  savedGood == null && localStorage.setItem("Good", 0);
+  savedNeutral == null && localStorage.setItem("Neutral", 0);
+  savedBad == null && localStorage.setItem("Bad", 0);
 
   const [clicks, setClicks] = useState({
     good: JSON.parse(savedGood),
@@ -33,6 +38,9 @@ export default function App() {
   };
 
   const totalFeedback = clicks.good + clicks.neutral + clicks.bad;
+  const positiveFeedback = totalFeedback
+    ? Math.round((clicks.good / totalFeedback) * 100)
+    : 0;
 
   useEffect(() => {
     localStorage.setItem("Good", clicks.good);
@@ -54,18 +62,15 @@ export default function App() {
         total={totalFeedback}
       />
 
-      <Notification
-        text={
-          totalFeedback ? (
-            <Feedback
-              good={clicks.good}
-              neutral={clicks.neutral}
-              bad={clicks.bad}
-            />
-          ) : (
-            "No FeedBack yet."
-          )
-        }
+      <Notification text={"No Feedback Yet"} total={totalFeedback} />
+      {/* Убрал Feedback из компонента Notification и поставил его отдельно */}
+      <Feedback
+        good={clicks.good}
+        neutral={clicks.neutral}
+        bad={clicks.bad}
+        // Перенес total и positive из компонента в App пропсом, а не внутри компонента
+        total={totalFeedback}
+        positive={positiveFeedback}
       />
     </>
   );
