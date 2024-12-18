@@ -12,9 +12,9 @@ export default function App() {
   const savedNeutral = localStorage.getItem("Neutral");
   const savedBad = localStorage.getItem("Bad");
 
-  savedGood == null && localStorage.setItem("Good", "0");
-  savedNeutral == null && localStorage.setItem("Neutral", "0");
-  savedBad == null && localStorage.setItem("Bad", "0");
+  // savedGood == null && localStorage.setItem("Good", "0");
+  // savedNeutral == null && localStorage.setItem("Neutral", "0");
+  // savedBad == null && localStorage.setItem("Bad", "0");
 
   const [clicks, setClicks] = useState({
     good: JSON.parse(savedGood),
@@ -46,7 +46,18 @@ export default function App() {
     localStorage.setItem("Good", clicks.good);
     localStorage.setItem("Neutral", clicks.neutral);
     localStorage.setItem("Bad", clicks.bad);
-  }, [clicks.good, clicks.neutral, clicks.bad]);
+
+    savedGood == null && localStorage.setItem("Good", "0");
+    savedNeutral == null && localStorage.setItem("Neutral", "0");
+    savedBad == null && localStorage.setItem("Bad", "0");
+  }, [
+    clicks.good,
+    clicks.neutral,
+    clicks.bad,
+    savedGood,
+    savedNeutral,
+    savedBad,
+  ]);
 
   return (
     <>
