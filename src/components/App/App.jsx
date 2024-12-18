@@ -43,13 +43,15 @@ export default function App() {
     : 0;
 
   useEffect(() => {
-    localStorage.setItem("Good", clicks.good);
-    localStorage.setItem("Neutral", clicks.neutral);
-    localStorage.setItem("Bad", clicks.bad);
-
-    savedGood == null && localStorage.setItem("Good", "0");
-    savedNeutral == null && localStorage.setItem("Neutral", "0");
-    savedBad == null && localStorage.setItem("Bad", "0");
+    savedGood == !null
+      ? localStorage.setItem("Good", clicks.good)
+      : localStorage.setItem("Good", "0");
+    savedNeutral == null
+      ? localStorage.setItem("Neutral", clicks.neutral)
+      : localStorage.setItem("Neutral", "0");
+    savedBad == null
+      ? localStorage.setItem("Bad", clicks.bad)
+      : localStorage.setItem("Bad", "0");
   }, [
     clicks.good,
     clicks.neutral,
