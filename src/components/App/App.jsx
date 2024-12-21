@@ -6,21 +6,15 @@ import Notification from "../Notification/Notification";
 import { useState, useEffect } from "react";
 
 export default function App() {
-  // Вроде работает)
+  const getClicks = () => {
+    return {
+      good: JSON.parse(localStorage.getItem("Good")) || 0,
+      neutral: JSON.parse(localStorage.getItem("Neutral")) || 0,
+      bad: JSON.parse(localStorage.getItem("Bad")) || 0,
+    };
+  };
 
-  const savedGood = localStorage.getItem("Good");
-  const savedNeutral = localStorage.getItem("Neutral");
-  const savedBad = localStorage.getItem("Bad");
-
-  savedGood == null && localStorage.setItem("Good", "0");
-  savedNeutral == null && localStorage.setItem("Neutral", "0");
-  savedBad == null && localStorage.setItem("Bad", "0");
-
-  const [clicks, setClicks] = useState({
-    good: JSON.parse(savedGood),
-    neutral: JSON.parse(savedNeutral),
-    bad: JSON.parse(savedBad),
-  });
+  const [clicks, setClicks] = useState(getClicks);
 
   const updateFeedback = (key) => {
     setClicks((prev) => ({
@@ -63,15 +57,17 @@ export default function App() {
       />
 
       <Notification text={"No Feedback Yet"} total={totalFeedback} />
-      {/* Убрал Feedback из компонента Notification и поставил его отдельно */}
-      <Feedback
-        good={clicks.good}
-        neutral={clicks.neutral}
-        bad={clicks.bad}
-        // Перенес total и positive из компонента в App пропсом, а не внутри компонента
-        total={totalFeedback}
-        positive={positiveFeedback}
-      />
+
+      {totalFeedback > 0 && (
+        <Feedback
+          good={clicks.good}
+          neutral={clicks.neutral}
+          bad={clicks.bad}
+          // Перенес total и positive из компонента в App пропсом, а не внутри компонента
+          total={totalFeedback}
+          positive={positiveFeedback}
+        />
+      )}
     </>
   );
 }
