@@ -7,11 +7,8 @@ import { useState, useEffect } from "react";
 
 export default function App() {
   const getClicks = () => {
-    return {
-      good: JSON.parse(localStorage.getItem("Good")) || 0,
-      neutral: JSON.parse(localStorage.getItem("Neutral")) || 0,
-      bad: JSON.parse(localStorage.getItem("Bad")) || 0,
-    };
+    const savedClicks = JSON.parse(localStorage.getItem("FeedbackClicks"));
+    return savedClicks || { good: 0, neutral: 0, bad: 0 };
   };
 
   const [clicks, setClicks] = useState(getClicks);
@@ -37,10 +34,8 @@ export default function App() {
     : 0;
 
   useEffect(() => {
-    localStorage.setItem("Good", clicks.good);
-    localStorage.setItem("Neutral", clicks.neutral);
-    localStorage.setItem("Bad", clicks.bad);
-  }, [clicks.good, clicks.neutral, clicks.bad]);
+    localStorage.setItem("FeedbackClicks", JSON.stringify(clicks));
+  }, [clicks]);
 
   return (
     <>
@@ -56,7 +51,9 @@ export default function App() {
         total={totalFeedback}
       />
 
-      <Notification text={"No Feedback Yet"} total={totalFeedback} />
+      {totalFeedback === 0 && (
+        <Notification text={"No Feedback Yet"} total={totalFeedback} />
+      )}
 
       {totalFeedback > 0 && (
         <Feedback
